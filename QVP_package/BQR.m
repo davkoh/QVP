@@ -110,6 +110,13 @@ for irep = 1:iter
         v_star=(X_tilde*U_bar+I_n)\(y_tilde-v);
         beta(:,q)=(u+U_bar*v_star);
 
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % Sample regression variance sigma2
+        a1 = a0 + 3*n/2;
+        sse = (y-x*beta(:,q) - theta(:,q)*z(:,q)).^2;
+        a2 = b0 + sum(sse./(2*z(:,q)*tau_sq(:,q))) + sum(z(:,q));       
+        sigma(1,q) = 1./gamrnd(a1,1./a2);
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         %% Sample latent variables z_{t}
         for t = 1:n
